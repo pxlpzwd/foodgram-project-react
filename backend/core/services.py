@@ -45,7 +45,7 @@ def create_shoping_list(user: "NewUser") -> str:
         for ing in ingredients
     )
     shopping_list.extend(ing_list)
-    
+
     shopping_list.append("\nПосчитано в Foodgram")
     return "\n".join(shopping_list)
 

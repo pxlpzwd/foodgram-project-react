@@ -3,7 +3,7 @@ import unicodedata
 
 class NormalizeValidators:
     """Нормализуем введённые данные"""
-    
+
     @classmethod
     def normalize_email(cls, email: str) -> str:
         """Возвращаем адресс приведенный к нижнему регистру"""
@@ -18,7 +18,9 @@ class NormalizeValidators:
 
     @classmethod
     def normalize_username(cls, username: str) -> str:
-        """Возвращаем нормализованный юзернэйм и делаем первую букву заглавной"""
+        """
+        Возвращаем нормализованный юзернэйм и делаем первую букву заглавной
+        """
         return unicodedata.normalize("NFKC", username).capitalize()
 
     @staticmethod

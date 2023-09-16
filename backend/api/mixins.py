@@ -43,7 +43,9 @@ class AddDelViewMixin:
     def _delete_relation(self, q: Q) -> Response:
         """Удаляет связь M2M между объектами."""
         try:
-            relation = self.link_model.objects.get(q & Q(user=self.request.user))
+            relation = self.link_model.objects.get(
+                q & Q(user=self.request.user)
+            )
         except ObjectDoesNotExist:
             return Response(
                 {"error": f"{self.link_model.__name__} не существует"},
