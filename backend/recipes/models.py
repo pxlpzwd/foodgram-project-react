@@ -7,6 +7,7 @@ from PIL import Image
 
 User = get_user_model()
 
+
 class Tag(models.Model):
     name = models.CharField(
         "Тэг",
@@ -31,6 +32,7 @@ class Tag(models.Model):
         self.color = hex_color_validator(self.color)
         super().clean()
 
+
 class Ingredient(models.Model):
     name = models.CharField("Ингридиент", max_length=64)
     measurement_unit = models.CharField("Единицы измерения", max_length=24)
@@ -40,7 +42,10 @@ class Ingredient(models.Model):
         verbose_name_plural = "Ингридиенты"
         ordering = ("name",)
         constraints = (
-            models.UniqueConstraint(fields=("name", "measurement_unit"), name="unique_for_ingredient"),
+            models.UniqueConstraint(
+                fields=("name", "measurement_unit"),
+                name="unique_for_ingredient"
+                ),
             models.CheckConstraint(
                 check=Q(name__length__gt=0),
                 name="%(app_label)s_%(class)s_name_is_empty"
@@ -59,6 +64,7 @@ class Ingredient(models.Model):
         self.measurement_unit = self.measurement_unit.lower()
         super().clean()
 
+
 class Recipe(models.Model):
     name = models.CharField("Название блюда", max_length=64)
     author = models.ForeignKey(
@@ -72,8 +78,11 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(
         Ingredient, related_name="recipes", through="AmountIngredient"
     )
-    pub_date = models.DateTimeField("Дата публикации", auto_now_add=True, editable=False)
-    image = models.ImageField("Изображение блюда", upload_to="recipe_images/")
+    pub_date = models.DateTimeField("Дата публикации",
+                                    auto_now_add=True,
+                                    editable=False)
+    image = models.ImageField("Изображение блюда",
+                              upload_to="recipe_images/")
     text = models.TextField("Описание блюда", max_length=5000)
     cooking_time = models.PositiveSmallIntegerField(
         "Время приготовления",
@@ -89,7 +98,8 @@ class Recipe(models.Model):
         verbose_name_plural = "Рецепты"
         ordering = ("-pub_date",)
         constraints = (
-            models.UniqueConstraint(fields=("name", "author"), name="unique_for_author"),
+            models.UniqueConstraint(fields=("name", "author"),
+                                    name="unique_for_author"),
             models.CheckConstraint(
                 check=Q(name__length__gt=0),
                 name="%(app_label)s_%(class)s_name_is_empty"
@@ -110,8 +120,16 @@ class Recipe(models.Model):
         image.save(self.image.path)
 
 class AmountIngredient(models.Model):
-    recipe = models.ForeignKey(Recipe, verbose_name="В каких рецептах", related_name="ingredient", on_delete=models.CASCADE)
-    ingredients = models.ForeignKey(Ingredient, verbose_name="Связанные ингредиенты", related_name="recipe", on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe,
+                               verbose_name="В каких рецептах",
+                               related_name="ingredient",
+                               on_delete=models.CASCADE
+                               )
+    ingredients = models.ForeignKey(Ingredient,
+                                    verbose_name="Связанные ингредиенты",
+                                    related_name="recipe",
+                                    on_delete=models.CASCADE
+                                    )
     amount = models.PositiveSmallIntegerField(
         "Количество",
         default=0,
@@ -135,6 +153,7 @@ class AmountIngredient(models.Model):
     def __str__(self) -> str:
         return f"{self.amount} {self.ingredients}"
 
+
 class Favorites(models.Model):
     recipe = models.ForeignKey(
         Recipe,
@@ -148,28 +167,46 @@ class Favorites(models.Model):
         related_name="favorites",
         on_delete=models.CASCADE
     )
-    date_added = models.DateTimeField("Дата добавления", auto_now_add=True, editable=False)
+    date_added = models.DateTimeField("Дата добавления",
+                                      auto_now_add=True,
+                                      editable=False
+                                      )
 
     class Meta:
         verbose_name = "Избранный рецепт"
         verbose_name_plural = "Избранные рецепты"
         constraints = (
-            models.UniqueConstraint(fields=("recipe", "user"), name="%(app_label)s_%(class)s_recipe_is_favorite_already"),
+            models.UniqueConstraint(
+                fields=("recipe", "user"),
+                name="%(app_label)s_%(class)s_recipe_is_favorite_already"),
         )
 
     def __str__(self) -> str:
         return f"{self.user} -> {self.recipe}"
 
 class Carts(models.Model):
-    recipe = models.ForeignKey(Recipe, verbose_name="Рецепты в списке покупок", related_name="in_carts", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, verbose_name="Владелец списка", related_name="carts", on_delete=models.CASCADE)
-    date_added = models.DateTimeField("Дата добавления", auto_now_add=True, editable=False)
+    recipe = models.ForeignKey(Recipe,
+                               verbose_name="Рецепты в списке покупок",
+                               related_name="in_carts",
+                               on_delete=models.CASCADE
+                               )
+    user = models.ForeignKey(User,
+                             verbose_name="Владелец списка",
+                             related_name="carts",
+                             on_delete=models.CASCADE
+                             )
+    date_added = models.DateTimeField("Дата добавления",
+                                      auto_now_add=True,
+                                      editable=False
+                                      )
 
     class Meta:
         verbose_name = "Рецепт в списке покупок"
         verbose_name_plural = "Рецепты в списке покупок"
         constraints = (
-            models.UniqueConstraint(fields=("recipe", "user"), name="%(app_label)s_%(class)s_recipe_is_cart_already"),
+            models.UniqueConstraint(
+                fields=("recipe", "user"),
+                name="%(app_label)s_%(class)s_recipe_is_cart_already"),
         )
 
     def __str__(self) -> str:
