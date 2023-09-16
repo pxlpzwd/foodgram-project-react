@@ -1,6 +1,6 @@
 from re import compile
 from string import hexdigits
-from typing import TYPE_CHECKING, List, Dict, Tuple, Union
+from typing import TYPE_CHECKING, Dict, List, Tuple, Union
 
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible

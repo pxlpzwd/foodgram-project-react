@@ -12,6 +12,7 @@ from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 User = get_user_model()
 
+
 class RecipeSummarySerializer(ModelSerializer):
     """Для предоставления краткой информации о рецепте, включая
     его идентификатор, название, изображение и время приготовления."""
@@ -93,6 +94,7 @@ class UserSubscribeSerializer(UserSerializer):
     def get_recipes_count(self, obj: User) -> int:
         """Показывает общее количество рецептов у каждого автора."""
         return obj.recipes.count()
+
 
 class TagSerializer(ModelSerializer):
     """Вывод тэгов."""

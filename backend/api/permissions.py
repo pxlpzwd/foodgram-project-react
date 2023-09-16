@@ -3,6 +3,7 @@ from django.db.models import Model
 from rest_framework.permissions import SAFE_METHODS, BasePermission
 from rest_framework.routers import APIRootView
 
+
 class BlockPermission(BasePermission):
     """Проверка заблокирован ли пользователь."""
 
@@ -28,8 +29,9 @@ class BaseAuthorStaffPermission(BlockPermission):
 
         return False
 
-    def has_user_permission(self, request: WSGIRequest, obj: Model) -> bool:
-        raise NotImplementedError("Метод `has_user_permission` должен быть переопределен.")
+    def has_user_permission(self,request: WSGIRequest, obj: Model) -> bool:
+        raise NotImplementedError(
+            "Метод `has_user_permission`должен быть переопределен.")
 
 
 class AuthorStaffOrReadOnly(BaseAuthorStaffPermission):

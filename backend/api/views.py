@@ -1,23 +1,23 @@
-from api.mixins import AddDelViewMixin
-from api.paginators import PageLimitPagination
-from api.permissions import AdminOrReadOnly, AuthorStaffOrReadOnly
-from api.serializers import (
-    IngredientSerializer, RecipeSerializer, RecipeSummarySerializer,
-    TagSerializer, UserSubscribeSerializer
-)
 from core.services import create_shoping_list, maybe_incorrect_layout
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http.response import HttpResponse
 from djoser.views import UserViewSet as DjoserUserViewSet
 from recipes.models import Carts, Favorites, Ingredient, Recipe, Tag
-from rest_framework.routers import APIRootView
 from rest_framework.decorators import action
 from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.routers import APIRootView
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from users.models import Subscriptions
+
+from api.mixins import AddDelViewMixin
+from api.paginators import PageLimitPagination
+from api.permissions import AdminOrReadOnly, AuthorStaffOrReadOnly
+from api.serializers import (IngredientSerializer, RecipeSerializer,
+                             RecipeSummarySerializer, TagSerializer,
+                             UserSubscribeSerializer)
 
 User = get_user_model()
 
@@ -38,8 +38,8 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
 
     @subscribe.mapping.post
     def create_subscribe(self, request, id: int | str) -> Response:
-        return self._create_relation(id, relation_type="subscription") # добавлен другой параметр 'relation_type'
-        #return self._create_relation(id)
+        return self._create_relation(id, relation_type="subscription")
+        # return self._create_relation(id)
 
     @subscribe.mapping.delete
     def delete_subscribe(self, request, id: int | str) -> Response:
@@ -128,8 +128,8 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     @favorite.mapping.post
     def recipe_to_favorites(self, request, pk: int | str) -> Response:
         self.link_model = Favorites
-        return self._create_relation(pk, relation_type="favorite") 
-        #return self._create_relation(pk)
+        return self._create_relation(pk, relation_type="favorite")
+        # return self._create_relation(pk)
 
     @favorite.mapping.delete
     def remove_recipe_from_favorites(self, request, pk: int | str) -> Response:
@@ -144,14 +144,14 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     def recipe_to_cart(self, request, pk: int | str) -> Response:
         self.link_model = Carts
         return self._create_relation(pk, relation_type="cart")
-        #return self._create_relation(pk)
+        # return self._create_relation(pk)
 
     @shopping_cart.mapping.delete
     def remove_recipe_from_cart(self, request, pk: int | str) -> Response:
         self.link_model = Carts
         return self._delete_relation(Q(recipe__id=pk))
 
-    @action(methods=("get",), detail=False) 
+    @action(methods=("get",), detail=False)
     def download_shopping_cart(self, request) -> Response:
         user = self.request.user
         if not user.carts.exists():

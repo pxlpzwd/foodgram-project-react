@@ -45,7 +45,7 @@ class Ingredient(models.Model):
             models.UniqueConstraint(
                 fields=("name", "measurement_unit"),
                 name="unique_for_ingredient"
-                ),
+            ),
             models.CheckConstraint(
                 check=Q(name__length__gt=0),
                 name="%(app_label)s_%(class)s_name_is_empty"
@@ -119,6 +119,7 @@ class Recipe(models.Model):
         image.thumbnail((500, 500))
         image.save(self.image.path)
 
+
 class AmountIngredient(models.Model):
     recipe = models.ForeignKey(Recipe,
                                verbose_name="В каких рецептах",
@@ -184,6 +185,7 @@ class Favorites(models.Model):
     def __str__(self) -> str:
         return f"{self.user} -> {self.recipe}"
 
+
 class Carts(models.Model):
     recipe = models.ForeignKey(Recipe,
                                verbose_name="Рецепты в списке покупок",
@@ -211,4 +213,3 @@ class Carts(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user} -> {self.recipe}"
-    

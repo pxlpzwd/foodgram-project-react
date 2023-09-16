@@ -1,16 +1,14 @@
+from typing import Optional, Type
+
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Model, Q
 from django.db.utils import IntegrityError
 from django.shortcuts import get_object_or_404
-from rest_framework.serializers import ModelSerializer
-from rest_framework.status import (
-    HTTP_201_CREATED,
-    HTTP_204_NO_CONTENT,
-    HTTP_400_BAD_REQUEST,
-)
 from rest_framework.response import Response
-from django.db.models import Model
-from typing import Type, Optional
+from rest_framework.serializers import ModelSerializer
+from rest_framework.status import (HTTP_201_CREATED, HTTP_204_NO_CONTENT,
+                                   HTTP_400_BAD_REQUEST)
+
 
 class AddDelViewMixin:
     """Добавляет во Viewset дополнительные методы. Содержит методы
@@ -19,20 +17,6 @@ class AddDelViewMixin:
     add_serializer: Optional[Type[ModelSerializer]] = None
     link_model: Optional[Type[Model]] = None
 
-    # def _create_relation(self, obj_id: int | str) -> Response:
-    #     """Добавляет связь M2M между объектами."""
-    #     obj = get_object_or_404(self.queryset, pk=obj_id)
-    #     try:
-    #         #self.link_model.objects.create(author_id=obj.pk, user_id=self.request.user.pk)
-    #         self.link_model.objects.create(recipe_id=obj.pk, user_id=self.request.user.pk)
-    #     except IntegrityError:
-    #         return Response(
-    #             {"error": "Действие уже выполнено."},
-    #             status=HTTP_400_BAD_REQUEST,
-    #         )
-
-    #     serializer: ModelSerializer = self.add_serializer(obj)
-    #     return Response(serializer.data, status=HTTP_201_CREATED)
     def _create_relation(self, obj_id: int | str, relation_type: str) -> Response:
         """Добавляет связь M2M между объектами."""
         obj = get_object_or_404(self.queryset, pk=obj_id)
