@@ -29,7 +29,7 @@ class BaseAuthorStaffPermission(BlockPermission):
 
         return False
 
-    def has_user_permission(self,request: WSGIRequest, obj: Model) -> bool:
+    def has_user_permission(self, request: WSGIRequest, obj: Model) -> bool:
         raise NotImplementedError(
             "Метод `has_user_permission`должен быть переопределен.")
 

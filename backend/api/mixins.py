@@ -17,7 +17,9 @@ class AddDelViewMixin:
     add_serializer: Optional[Type[ModelSerializer]] = None
     link_model: Optional[Type[Model]] = None
 
-    def _create_relation(self, obj_id: int | str, relation_type: str) -> Response:
+    def _create_relation(self,
+                         obj_id: int | str,
+                         relation_type: str) -> Response:
         """Добавляет связь M2M между объектами."""
         obj = get_object_or_404(self.queryset, pk=obj_id)
 

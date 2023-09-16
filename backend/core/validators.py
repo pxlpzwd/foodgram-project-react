@@ -20,7 +20,10 @@ class AlphabetValidator:
         self.first_regex = compile(first_regex)
         self.second_regex = compile(second_regex)
         self.field = field
-        self.message = f"\n{self.field} <%s> на разных языках либо содержит не только буквы.\n"
+        self.message = (
+            f"\n{self.field} <%s> на разных языках либо "
+            f"содержит не только буквы.\n"
+        )
 
     def __call__(self, value: str) -> None:
         if self.first_regex.search(value) and self.second_regex.search(value):
@@ -52,7 +55,8 @@ def hex_color_validator(color: str) -> str:
     return f"#{color.upper()}"
 
 
-def tags_exist_validator(tags_ids: List[Union[int, str]], Tag: "Tag") -> List["Tag"]:
+def tags_exist_validator(tags_ids: List[Union[int, str]],
+                         Tag: "Tag") -> List["Tag"]:
     if not tags_ids:
         raise ValidationError("Не указаны тэги")
 
