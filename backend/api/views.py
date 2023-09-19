@@ -39,7 +39,6 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
     @subscribe.mapping.post
     def create_subscribe(self, request, id: int | str) -> Response:
         return self._create_relation(id, relation_type="subscription")
-        # return self._create_relation(id)
 
     @subscribe.mapping.delete
     def delete_subscribe(self, request, id: int | str) -> Response:
@@ -129,7 +128,6 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     def recipe_to_favorites(self, request, pk: int | str) -> Response:
         self.link_model = Favorites
         return self._create_relation(pk, relation_type="favorite")
-        # return self._create_relation(pk)
 
     @favorite.mapping.delete
     def remove_recipe_from_favorites(self, request, pk: int | str) -> Response:
@@ -144,7 +142,6 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     def recipe_to_cart(self, request, pk: int | str) -> Response:
         self.link_model = Carts
         return self._create_relation(pk, relation_type="cart")
-        # return self._create_relation(pk)
 
     @shopping_cart.mapping.delete
     def remove_recipe_from_cart(self, request, pk: int | str) -> Response:
