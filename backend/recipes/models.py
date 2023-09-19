@@ -1,4 +1,4 @@
-from core.validators import AlphabetValidator, hex_color_validator
+from core.validators import AlphabetValidator, HexColorValidator
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -15,7 +15,8 @@ class Tag(models.Model):
         validators=(AlphabetValidator(field="Название тэга"),),
         unique=True,
     )
-    color = models.CharField("Цвет", max_length=7, unique=True)
+#    color = models.CharField("Цвет", max_length=7, unique=True)
+    color = models.CharField("Цвет", max_length=7, unique=True, validators=[HexColorValidator()])
     slug = models.CharField("Слаг тэга", max_length=64, unique=True)
 
     class Meta:
@@ -29,7 +30,8 @@ class Tag(models.Model):
     def clean(self) -> None:
         self.name = self.name.strip().lower()
         self.slug = self.slug.strip().lower()
-        self.color = hex_color_validator(self.color)
+        #self.color = hex_color_validator(self.color)
+        self.color = HexColorValidator().normalize_value(self.color)
         super().clean()
 
 

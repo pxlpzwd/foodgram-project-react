@@ -10,6 +10,22 @@ if TYPE_CHECKING:
 
 
 @deconstructible
+class HexColorValidator:
+    message = "Код цвета некорректен."
+
+    def __call__(self, value: str) -> None:
+        color = value.strip(" #")
+        if len(color) not in (3, 6) or not set(color).issubset(hexdigits):
+            raise ValidationError(self.message, code="invalid", params={"value": value})
+
+    def normalize_value(self, value: str) -> str:
+        color = value.strip(" #")
+        if len(color) == 3:
+           color = f"{color[0] * 2}{color[1] * 2}{color[2] * 2}"
+        return f"#{color.upper()}"
+
+
+@deconstructible
 class AlphabetValidator:
     def __init__(
         self,
@@ -45,15 +61,13 @@ class MinLenValidator:
         if len(value) < self.min_len:
             raise ValidationError(self.message)
 
-
-def hex_color_validator(color: str) -> str:
-    color = color.strip(" #")
-    if len(color) not in (3, 6) or not set(color).issubset(hexdigits):
-        raise ValidationError(f"Код цвета {color} некорректен.")
-    if len(color) == 3:
-        color = f"{color[0] * 2}{color[1] * 2}{color[2] * 2}"
-    return f"#{color.upper()}"
-
+# def hex_color_validator(color: str) -> str:
+#     color = color.strip(" #")
+#     if len(color) not in (3, 6) or not set(color).issubset(hexdigits):
+#         raise ValidationError(f"Код цвета {color} некорректен.")
+#     if len(color) == 3:
+#         color = f"{color[0] * 2}{color[1] * 2}{color[2] * 2}"
+#     return f"#{color.upper()}"
 
 def tags_exist_validator(tags_ids: List[Union[int, str]],
                          Tag: "Tag") -> List["Tag"]:
