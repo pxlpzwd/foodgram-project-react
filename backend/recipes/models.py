@@ -121,6 +121,12 @@ class Recipe(models.Model):
         image.thumbnail((500, 500))
         image.save(self.image.path)
 
+    def delete(self, *args, **kwargs):
+        """Удаляет картинку при удаление рецепта."""
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)
+
 
 class AmountIngredient(models.Model):
     recipe = models.ForeignKey(Recipe,
