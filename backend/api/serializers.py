@@ -15,7 +15,7 @@ User = get_user_model()
 
 class RecipeSummarySerializer(ModelSerializer):
     """Для предоставления краткой информации о рецепте, включая
-    его идентификатор, название, изображение и время приготовления."""
+       его идентификатор, название, изображение и время приготовления."""
 
     class Meta:
         model = Recipe
@@ -25,7 +25,7 @@ class RecipeSummarySerializer(ModelSerializer):
 
 class UserSerializer(ModelSerializer):
     """Для работы с данными пользователей, генерации и обработки
-    пользовательской информации."""
+       пользовательской информации."""
 
     is_subscribed = SerializerMethodField()
 
@@ -100,8 +100,8 @@ class TagSerializer(ModelSerializer):
     """Вывод тэгов."""
     class Meta:
         model = Tag
-        fields = "__all__"
-        read_only_fields = ("all",)
+        fields = ("id", "name", "color", "slug")
+        read_only_fields = ("id",)
 
     def validate(self, data: OrderedDict) -> OrderedDict:
         """Удаление пробелов и символов, преобразование к верхнему регистру"""
