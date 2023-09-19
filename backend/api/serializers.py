@@ -179,8 +179,11 @@ class RecipeSerializer(ModelSerializer):
         tags_ids: list[int] = self.initial_data.get("tags")
         ingredients = self.initial_data.get("ingredients")
 
-        if not tags_ids or not ingredients:
-            raise ValidationError("Мало данных.")
+        if not tags_ids:
+            raise ValidationError("Теги обязательны для создания рецепта.")
+        
+        if not ingredients:
+            raise ValidationError("Ингредиенты обязательны для создания рецепта.")
 
         tags = tags_exist_validator(tags_ids, Tag)
         ingredients = ingredients_validator(ingredients, Ingredient)
