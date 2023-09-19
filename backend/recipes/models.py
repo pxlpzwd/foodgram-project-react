@@ -9,13 +9,13 @@ User = get_user_model()
 
 
 class Tag(models.Model):
+    """Модель тэгов, которые могут быть назначены рецептам."""
     name = models.CharField(
         "Тэг",
         max_length=64,
         validators=(AlphabetValidator(field="Название тэга"),),
         unique=True,
     )
-#    color = models.CharField("Цвет", max_length=7, unique=True)
     color = models.CharField("Цвет", max_length=7, unique=True, validators=[HexColorValidator()])
     slug = models.CharField("Слаг тэга", max_length=64, unique=True)
 
@@ -28,14 +28,15 @@ class Tag(models.Model):
         return f"{self.name} (цвет: {self.color})"
 
     def clean(self) -> None:
+        """Очистка и валидация полей модели Tag перед сохранением."""
         self.name = self.name.strip().lower()
         self.slug = self.slug.strip().lower()
-        #self.color = hex_color_validator(self.color)
         self.color = HexColorValidator().normalize_value(self.color)
         super().clean()
 
 
 class Ingredient(models.Model):
+    """Модель ингредиентов, используемых в рецептах."""
     name = models.CharField("Ингридиент", max_length=64)
     measurement_unit = models.CharField("Единицы измерения", max_length=24)
 
@@ -62,12 +63,14 @@ class Ingredient(models.Model):
         return f"{self.name} {self.measurement_unit}"
 
     def clean(self) -> None:
+        """Очистка и нормализация полей модели перед сохранением."""
         self.name = self.name.lower()
         self.measurement_unit = self.measurement_unit.lower()
         super().clean()
 
 
 class Recipe(models.Model):
+    """Модель рецепта, содержащая информацию о блюде и его составляющих."""
     name = models.CharField("Название блюда", max_length=64)
     author = models.ForeignKey(
         User,
@@ -112,10 +115,16 @@ class Recipe(models.Model):
         return f"{self.name}. Автор: {self.author.username}"
 
     def clean(self) -> None:
+        """Проводит очистку и предварительную обработку данных перед
+           сохранением объекта. Данный метод автоматически обрабатывает
+           имя блюда, делает его с заглавной буквы."""
         self.name = self.name.capitalize()
         super().clean()
 
     def save(self, *args, **kwargs) -> None:
+        """Сохраняет изменения объекта модели рецепта в базе данных.
+           Перед сохранением ресайзит изображение рецепта до размеров
+           500x500 пикселей."""
         super().save(*args, **kwargs)
         image = Image.open(self.image.path)
         image.thumbnail((500, 500))
@@ -129,6 +138,7 @@ class Recipe(models.Model):
 
 
 class AmountIngredient(models.Model):
+    """Модель, отвечающая за количество ингредиентов в каждом рецепте."""
     recipe = models.ForeignKey(Recipe,
                                verbose_name="В каких рецептах",
                                related_name="ingredient",
@@ -164,6 +174,7 @@ class AmountIngredient(models.Model):
 
 
 class Favorites(models.Model):
+    """Модель для избранных рецептов, связывающая их с пользователем."""
     recipe = models.ForeignKey(
         Recipe,
         verbose_name="Понравившийся рецепт",
@@ -195,6 +206,7 @@ class Favorites(models.Model):
 
 
 class Carts(models.Model):
+    """Модель для списка покупок рецептов, связывающая рецепты с их владельцами."""
     recipe = models.ForeignKey(Recipe,
                                verbose_name="Рецепты в списке покупок",
                                related_name="in_carts",
