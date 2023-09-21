@@ -1,4 +1,4 @@
-from core.services import create_shoping_list, maybe_incorrect_layout
+from core.services import create_shoping_list
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http.response import HttpResponse
@@ -18,7 +18,7 @@ from api.serializers import (IngredientSerializer, RecipeSerializer,
                              RecipeSummarySerializer, TagSerializer,
                              UserSubscribeSerializer)
 from django_filters import rest_framework as filters
-from api.filters import RecipeFilterSet
+from api.filters import RecipeFilterSet, IngredientFilter
 
 User = get_user_model()
 
@@ -69,21 +69,8 @@ class IngredientViewSet(ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     permission_classes = (AdminOrReadOnly,)
-
-    def get_queryset(self):
-        """Запрашивает список ингредиентов c фильтрацией по имени."""
-        name: str = self.request.query_params.get("name")
-        queryset = self.queryset
-
-        if not name:
-            return queryset
-
-        name = maybe_incorrect_layout(name)
-        start_queryset = queryset.filter(name__istartswith=name)
-        start_names = (ing.name for ing in start_queryset)
-        contain_queryset = queryset.filter(name__icontains=name).exclude(
-            name__in=start_names)
-        return list(start_queryset) + list(contain_queryset)
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = IngredientFilter
 
 
 class RecipeViewSet(ModelViewSet, AddDelViewMixin):
