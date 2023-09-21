@@ -174,19 +174,56 @@ class RecipeSerializer(ModelSerializer):
 
         return user.carts.filter(recipe=recipe).exists()
 
-    def validate(self, data: OrderedDict) -> OrderedDict:
-        """Проверка данных при создании и редактировании рецептов."""
-        tags_ids: list[int] = self.initial_data.get("tags")
-        ingredients = self.initial_data.get("ingredients")
-
+    def validate_tags(self, tags_ids: list):
+        """ Валидация списка идентификаторов тегов."""
         if not tags_ids:
             raise ValidationError("Теги обязательны для создания рецепта.")
+
+        tags = Tag.objects.filter(id__in=tags_ids)
         
+        if len(tags) != len(tags_ids):
+            raise ValidationError("Указан несуществующий тег.")
+
+        return list(tags)
+
+    def validate_ingredients(self, ingredients: list):
+        """Валидация списка ингредиентов."""
         if not ingredients:
             raise ValidationError("Ингредиенты обязательны для создания рецепта.")
 
-        tags = tags_exist_validator(tags_ids, Tag)
-        ingredients = ingredients_validator(ingredients, Ingredient)
+        valid_ings = {}
+
+        for ing in ingredients:
+            amount = ing.get("amount")
+
+            if not (isinstance(amount, int) or str(amount).isdigit()):
+                raise ValidationError("Некорректное количество ингредиента")
+
+            ing_id = ing["id"]
+            amount = int(amount)
+
+            if amount <= 0:
+                raise ValidationError("Некорректное количество ингредиента")
+            valid_ings[ing_id] = amount
+
+        if not valid_ings:
+            raise ValidationError("Некорректные ингредиенты")
+
+        db_ings = Ingredient.objects.filter(pk__in=valid_ings.keys())
+
+        if not db_ings:
+            raise ValidationError("Некорректные ингредиенты")
+
+        result = {ing.pk: (ing, valid_ings[ing.pk]) for ing in db_ings}
+        return result
+
+    def validate(self, data: OrderedDict) -> OrderedDict:
+        """Валидация исходных данных."""
+        tags_ids: list[int] = self.initial_data.get("tags")
+        ingredients = self.initial_data.get("ingredients")
+        
+        tags = self.validate_tags(tags_ids)
+        ingredients = self.validate_ingredients(ingredients)
 
         data.update(
             {
