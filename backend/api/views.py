@@ -7,8 +7,7 @@ from recipes.models import Carts, Favorites, Ingredient, Recipe, Tag
 from rest_framework.decorators import action
 from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.routers import APIRootView
-from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_405_METHOD_NOT_ALLOWED
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from users.models import Subscriptions
 
@@ -106,6 +105,8 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     @action(detail=True, permission_classes=(IsAuthenticated,))
     def shopping_cart(self, request, pk: int | str) -> Response:
         """Добавляет, удалет рецепт в список покупок."""
+        return Response({"detail": "Method not allowed"}, status=HTTP_405_METHOD_NOT_ALLOWED)
+
 
     @shopping_cart.mapping.post
     def recipe_to_cart(self, request, pk: int | str) -> Response:
