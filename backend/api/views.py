@@ -18,15 +18,10 @@ from api.permissions import AdminOrReadOnly, AuthorStaffOrReadOnly
 from api.serializers import (IngredientSerializer, RecipeSerializer,
                              RecipeSummarySerializer, TagSerializer,
                              UserSubscribeSerializer)
-#from api.filters import RecipeFilter
 from django_filters import rest_framework as filters
 from api.filters import RecipeFilterSet
 
 User = get_user_model()
-
-
-class BaseAPIRootView(APIRootView):
-    """Базовые пути API приложения."""
 
 
 class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
@@ -93,37 +88,6 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     add_serializer = RecipeSummarySerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = RecipeFilterSet
-
-        # def get_queryset(self):
-        #     queryset = self.queryset
-        #     tags: list = self.request.query_params.getlist("tags")
-        #     if tags:
-        #         queryset = queryset.filter(
-        #             tags__slug__in=tags).distinct()
-
-        #     author: str = self.request.query_params.get("author")
-        #     if author:
-        #         queryset = queryset.filter(author=author)
-
-        #     if self.request.user.is_anonymous:
-        #         return queryset
-
-        #     is_in_cart: str = self.request.query_params.get("is_in_shopping_cart")
-        #     if is_in_cart in ["1", "true"]:
-        #         queryset = queryset.filter(
-        #             in_carts__user=self.request.user)
-        #     elif is_in_cart == "0":
-        #         queryset = queryset.exclude(
-        #             in_carts__user=self.request.user)
-
-        #     is_favorite: str = self.request.query_params.get("is_favorited")
-        #     if is_favorite in ["1", "true"]:
-        #         queryset = queryset.filter(
-        #             in_favorites__user=self.request.user)
-        #     if is_favorite == "0":
-        #         queryset = queryset.exclude(
-        #             in_favorites__user=self.request.user)
-        #     return queryset
 
     @action(detail=True, permission_classes=(IsAuthenticated,))
     def favorite(self, request, pk: int | str) -> Response:
