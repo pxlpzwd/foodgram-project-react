@@ -24,6 +24,7 @@ User = get_user_model()
 
 
 class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
+    """Класс представления для пользователей с возможностью подписки."""
     pagination_class = PageLimitPagination
     permission_classes = (DjangoModelPermissions,)
     add_serializer = UserSubscribeSerializer
@@ -35,10 +36,12 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
 
     @subscribe.mapping.post
     def create_subscribe(self, request, id: int | str) -> Response:
+        """Создаёт связь подписки между пользователями."""
         return self._create_relation(id, relation_type="subscription")
 
     @subscribe.mapping.delete
     def delete_subscribe(self, request, id: int | str) -> Response:
+        """Удаляет связь подписки между пользователями."""
         return self._delete_relation(Q(author__id=id))
 
     @action(
@@ -46,6 +49,7 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
         permission_classes=(IsAuthenticated,)
     )
     def subscriptions(self, request) -> Response:
+        """Получает список подписок пользователя."""
         pages = self.paginate_queryset(
             User.objects.filter(subscribers__user=self.request.user)
         )
@@ -54,17 +58,20 @@ class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
 
 
 class TagViewSet(ReadOnlyModelViewSet):
+    """Класс представления для тегов рецептов."""
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = (AdminOrReadOnly,)
 
 
 class IngredientViewSet(ReadOnlyModelViewSet):
+    """Класс представления для ингредиентов рецептов."""
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     permission_classes = (AdminOrReadOnly,)
 
     def get_queryset(self):
+        """Запрашивает список ингредиентов c фильтрацией по имени."""
         name: str = self.request.query_params.get("name")
         queryset = self.queryset
 
@@ -80,6 +87,8 @@ class IngredientViewSet(ReadOnlyModelViewSet):
 
 
 class RecipeViewSet(ModelViewSet, AddDelViewMixin):
+    """Класс представления для рецептов с возможностью добавления в
+       избранное и корзину."""
     queryset = Recipe.objects.select_related("author")
     serializer_class = RecipeSerializer
     permission_classes = (AuthorStaffOrReadOnly,)
@@ -94,11 +103,13 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
 
     @favorite.mapping.post
     def recipe_to_favorites(self, request, pk: int | str) -> Response:
+        """Добавляет рецепт в избранное."""
         self.link_model = Favorites
         return self._create_relation(pk, relation_type="favorite")
 
     @favorite.mapping.delete
     def remove_recipe_from_favorites(self, request, pk: int | str) -> Response:
+        """Удаляет рецепт из избранного."""
         self.link_model = Favorites
         return self._delete_relation(Q(recipe__id=pk))
 
@@ -110,16 +121,19 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
 
     @shopping_cart.mapping.post
     def recipe_to_cart(self, request, pk: int | str) -> Response:
+        """Добавляет рецепт в список покупок."""
         self.link_model = Carts
         return self._create_relation(pk, relation_type="cart")
 
     @shopping_cart.mapping.delete
     def remove_recipe_from_cart(self, request, pk: int | str) -> Response:
+        """Удаляет рецепт из списка покупок."""
         self.link_model = Carts
         return self._delete_relation(Q(recipe__id=pk))
 
     @action(methods=("get",), detail=False)
     def download_shopping_cart(self, request) -> Response:
+        """Загружает список покупок пользователя."""
         user = self.request.user
         if not user.carts.exists():
             return Response(status=HTTP_400_BAD_REQUEST)
