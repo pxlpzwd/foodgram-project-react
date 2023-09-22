@@ -179,7 +179,7 @@ class RecipeSerializer(ModelSerializer):
             raise ValidationError("Теги обязательны для создания рецепта.")
 
         tags = Tag.objects.filter(id__in=tags_ids)
-        
+
         if len(tags) != len(tags_ids):
             raise ValidationError("Указан несуществующий тег.")
 
@@ -188,7 +188,9 @@ class RecipeSerializer(ModelSerializer):
     def validate_ingredients(self, ingredients: list):
         """Валидация списка ингредиентов."""
         if not ingredients:
-            raise ValidationError("Ингредиенты обязательны для создания рецепта.")
+            raise ValidationError(
+                "Ингредиенты обязательны для создания рецепта."
+                )
 
         valid_ings = {}
 
@@ -220,7 +222,7 @@ class RecipeSerializer(ModelSerializer):
         """Валидация исходных данных."""
         tags_ids: list[int] = self.initial_data.get("tags")
         ingredients = self.initial_data.get("ingredients")
-        
+
         tags = self.validate_tags(tags_ids)
         ingredients = self.validate_ingredients(ingredients)
 

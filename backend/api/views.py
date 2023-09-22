@@ -2,25 +2,27 @@ from core.services import create_shoping_list
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.http.response import HttpResponse
+from django_filters import rest_framework as filters
 from djoser.views import UserViewSet as DjoserUserViewSet
 from recipes.models import Carts, Favorites, Ingredient, Recipe, Tag
 from rest_framework.decorators import action
 from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_405_METHOD_NOT_ALLOWED
+from rest_framework.status import (HTTP_400_BAD_REQUEST,
+                                   HTTP_405_METHOD_NOT_ALLOWED)
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from users.models import Subscriptions
 
+from api.filters import IngredientFilter, RecipeFilterSet
 from api.mixins import AddDelViewMixin
 from api.paginators import PageLimitPagination
 from api.permissions import AdminOrReadOnly, AuthorStaffOrReadOnly
 from api.serializers import (IngredientSerializer, RecipeSerializer,
-    RecipeSummarySerializer, TagSerializer,
-    UserSubscribeSerializer)
-from django_filters import rest_framework as filters
-from api.filters import RecipeFilterSet, IngredientFilter
+                             RecipeSummarySerializer, TagSerializer,
+                             UserSubscribeSerializer)
 
 User = get_user_model()
+
 
 class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
     """Класс представления для пользователей с возможностью подписки."""
@@ -62,6 +64,7 @@ class TagViewSet(ReadOnlyModelViewSet):
     serializer_class = TagSerializer
     permission_classes = (AdminOrReadOnly,)
 
+
 class IngredientViewSet(ReadOnlyModelViewSet):
     """Класс представления для ингредиентов рецептов."""
     queryset = Ingredient.objects.all()
@@ -70,20 +73,7 @@ class IngredientViewSet(ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = IngredientFilter
 
-# def get_queryset(self):
-#     """Запрашивает список ингредиентов c фильтрацией по имени."""
-#     name: str = self.request.query_params.get("name")
-#     queryset = self.queryset
 
-#     if not name:
-#         return queryset
-
-#     name = maybe_incorrect_layout(name)
-#     start_queryset = queryset.filter(name__istartswith=name)
-#     start_names = (ing.name for ing in start_queryset)
-#     contain_queryset = queryset.filter(name__icontains=name).exclude(
-#         name__in=start_names)
-#     return list(start_queryset) + list(contain_queryset)
 class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     """Класс представления для рецептов с возможностью добавления в
     избранное и корзину."""
@@ -114,8 +104,8 @@ class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     @action(detail=True, permission_classes=(IsAuthenticated,))
     def shopping_cart(self, request, pk: int | str) -> Response:
         """Добавляет, удалет рецепт в список покупок."""
-        return Response({"detail": "Method not allowed"}, status=HTTP_405_METHOD_NOT_ALLOWED)
-
+        return Response({"detail": "Method not allowed"},
+                        status=HTTP_405_METHOD_NOT_ALLOWED)
 
     @shopping_cart.mapping.post
     def recipe_to_cart(self, request, pk: int | str) -> Response:

@@ -1,14 +1,17 @@
-from django_filters import rest_framework as filters
-from recipes.models import Recipe, Ingredient
 from core.services import maybe_incorrect_layout
+from django_filters import rest_framework as filters
+from recipes.models import Ingredient, Recipe
 
 
 class RecipeFilterSet(filters.FilterSet):
     author = filters.NumberFilter(field_name='author')
-    tags = filters.MultipleChoiceFilter(field_name='tags__slug', conjoined=False)
-    is_in_shopping_cart = filters.BooleanFilter(method='filter_is_in_shopping_cart')
+    tags = filters.MultipleChoiceFilter(
+        field_name='tags__slug', conjoined=False
+        )
+    is_in_shopping_cart = filters.BooleanFilter(
+        method='filter_is_in_shopping_cart'
+        )
     is_favorited = filters.BooleanFilter(method='filter_is_favorited')
-
 
     class Meta:
         model = Recipe
@@ -44,8 +47,3 @@ class IngredientFilter(filters.FilterSet):
             # queryset = queryset.filter(name__icontains=value)
             queryset = queryset.filter(name__istartswith=value)
         return queryset
-
-
-
-
-
