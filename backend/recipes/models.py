@@ -16,7 +16,11 @@ class Tag(models.Model):
         validators=(AlphabetValidator(field="Название тэга"),),
         unique=True,
     )
-    color = models.CharField("Цвет", max_length=7, unique=True, validators=[HexColorValidator()])
+    color = models.CharField("Цвет",
+                             max_length=7,
+                             unique=True,
+                             validators=[HexColorValidator()]
+                             )
     slug = models.CharField("Слаг тэга", max_length=64, unique=True)
 
     class Meta:
@@ -206,7 +210,8 @@ class Favorites(models.Model):
 
 
 class Carts(models.Model):
-    """Модель для списка покупок рецептов, связывающая рецепты с их владельцами."""
+    """Модель для списка покупок рецептов, связывающая
+       рецепты с их владельцами."""
     recipe = models.ForeignKey(Recipe,
                                verbose_name="Рецепты в списке покупок",
                                related_name="in_carts",
