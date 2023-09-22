@@ -189,8 +189,7 @@ class RecipeSerializer(ModelSerializer):
         """Валидация списка ингредиентов."""
         if not ingredients:
             raise ValidationError(
-                "Ингредиенты обязательны для создания рецепта."
-                )
+                "Ингредиенты обязательны для создания рецепта.")
 
         valid_ings = {}
 

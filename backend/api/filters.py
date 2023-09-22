@@ -6,11 +6,9 @@ from recipes.models import Ingredient, Recipe
 class RecipeFilterSet(filters.FilterSet):
     author = filters.NumberFilter(field_name='author')
     tags = filters.MultipleChoiceFilter(
-        field_name='tags__slug', conjoined=False
-        )
+        field_name='tags__slug', conjoined=False)
     is_in_shopping_cart = filters.BooleanFilter(
-        method='filter_is_in_shopping_cart'
-        )
+        method='filter_is_in_shopping_cart')
     is_favorited = filters.BooleanFilter(method='filter_is_favorited')
 
     class Meta:

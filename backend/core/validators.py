@@ -16,8 +16,7 @@ class HexColorValidator:
             raise ValidationError(
                 self.message,
                 code="invalid",
-                params={"value": value}
-                )
+                params={"value": value})
 
     def normalize_value(self, value: str) -> str:
         color = value.strip(" #")
