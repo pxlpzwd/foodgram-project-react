@@ -15,13 +15,12 @@ from api.mixins import AddDelViewMixin
 from api.paginators import PageLimitPagination
 from api.permissions import AdminOrReadOnly, AuthorStaffOrReadOnly
 from api.serializers import (IngredientSerializer, RecipeSerializer,
-                             RecipeSummarySerializer, TagSerializer,
-                             UserSubscribeSerializer)
+    RecipeSummarySerializer, TagSerializer,
+    UserSubscribeSerializer)
 from django_filters import rest_framework as filters
 from api.filters import RecipeFilterSet, IngredientFilter
 
 User = get_user_model()
-
 
 class UserViewSet(DjoserUserViewSet, AddDelViewMixin):
     """Класс представления для пользователей с возможностью подписки."""
@@ -63,7 +62,6 @@ class TagViewSet(ReadOnlyModelViewSet):
     serializer_class = TagSerializer
     permission_classes = (AdminOrReadOnly,)
 
-
 class IngredientViewSet(ReadOnlyModelViewSet):
     """Класс представления для ингредиентов рецептов."""
     queryset = Ingredient.objects.all()
@@ -72,10 +70,23 @@ class IngredientViewSet(ReadOnlyModelViewSet):
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = IngredientFilter
 
+# def get_queryset(self):
+#     """Запрашивает список ингредиентов c фильтрацией по имени."""
+#     name: str = self.request.query_params.get("name")
+#     queryset = self.queryset
 
+#     if not name:
+#         return queryset
+
+#     name = maybe_incorrect_layout(name)
+#     start_queryset = queryset.filter(name__istartswith=name)
+#     start_names = (ing.name for ing in start_queryset)
+#     contain_queryset = queryset.filter(name__icontains=name).exclude(
+#         name__in=start_names)
+#     return list(start_queryset) + list(contain_queryset)
 class RecipeViewSet(ModelViewSet, AddDelViewMixin):
     """Класс представления для рецептов с возможностью добавления в
-       избранное и корзину."""
+    избранное и корзину."""
     queryset = Recipe.objects.select_related("author")
     serializer_class = RecipeSerializer
     permission_classes = (AuthorStaffOrReadOnly,)
