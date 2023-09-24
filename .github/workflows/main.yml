@@ -16,7 +16,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        privateKey: ${{ secrets.PRIVATE_KEY }}
+        key: ${{ secrets.PRIVATE_KEY }}
         command: cd projects && mkdir -p foodgram && mkdir -p foodgram/docs
 
     - name: Copy infra files
@@ -26,7 +26,7 @@ jobs:
           remote: /${{ secrets.USERNAME }}/projects/foodgram/
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          privateKey: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.PRIVATE_KEY }}
 
     - name: Copy docs
       uses: appleboy/scp-action@master
@@ -35,7 +35,7 @@ jobs:
           remote: /${{ secrets.USERNAME }}/projects/foodgram/docs/
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          privateKey: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.PRIVATE_KEY }}
 
   build_push_backend_to_DockerHub:
     name: Building back image and pushing it to Docker Hub
@@ -93,7 +93,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        privateKey: ${{ secrets.PRIVATE_KEY }}
+        key: ${{ secrets.PRIVATE_KEY }}
         command: |
           cd projects/foodgram/
           echo DEBUG=${{ secrets.DEBUG }} > .env
