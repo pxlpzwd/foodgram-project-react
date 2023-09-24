@@ -94,7 +94,8 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
-        passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
+        # passphrase: ${{ secrets.PRIVATE_KEY_PASSPHRASE }}
+        passphrase: NRjeSf
         script: |
           cd projects/foodgram/
           echo DEBUG=${{ secrets.DEBUG }} > .env
