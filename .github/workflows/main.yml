@@ -23,20 +23,20 @@ jobs:
         script: sudo mkdir -p /${{ secrets.USERNAME }}/projects/foodgram/docs && cd /${{ secrets.USERNAME }}/projects && ls -la
 
 
-    - name: Create temp directory on remote host
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        script: TMP_TARGET_DIR=$(mktemp -d)
+    # - name: Create temp directory on remote host
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.HOST }}
+    #     username: ${{ secrets.USERNAME }}
+    #     key: ${{ secrets.PRIVATE_KEY }}
+    #     passphrase: ${{ secrets.SSH_PASSPHRASE }}
+    #     script: TMP_TARGET_DIR=$(mktemp -d)
 
     - name: Copy infra files
       uses: appleboy/scp-action@master
       with:
           source: infra/
-          target: ${{ secrets.TMP_TARGET_DIR }}
+          # target: ${{ secrets.TMP_TARGET_DIR }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
