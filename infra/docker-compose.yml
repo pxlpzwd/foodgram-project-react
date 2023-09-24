@@ -3,7 +3,7 @@ services:
 
   frontend:
     container_name: foodgram_frontend
-    # image: pzwd/foodgram_frontend:latest
+    image: pzwd/foodgram_frontend:latest
     build: ../frontend
     volumes:
       - ./frontend/:/app/result_build/
@@ -19,7 +19,7 @@ services:
 
   backend:
     container_name: foodgram_backend #foodgram-app
-    # image: pzwd/foodgram_backend:latest
+    image: pzwd/foodgram_backend:latest
     build: ../backend
     restart: always
     volumes:
