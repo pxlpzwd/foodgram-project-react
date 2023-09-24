@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Create projects directory
-      uses: garygrossgarten/github-action-ssh@release
+      uses: pxlpzwd/github-action-ssh@release
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
@@ -20,7 +20,7 @@ jobs:
         command: cd projects && mkdir -p foodgram && mkdir -p foodgram/docs
 
     - name: Copy infra files
-      uses: garygrossgarten/github-action-scp@release
+      uses: pxlpzwd/github-action-scp@release
       with:
           local: infra/
           remote: /${{ secrets.USERNAME }}/projects/foodgram/
@@ -29,7 +29,7 @@ jobs:
           privateKey: ${{ secrets.PRIVATE_KEY }}
 
     - name: Copy docs
-      uses: garygrossgarten/github-action-scp@release
+      uses: pxlpzwd/github-action-scp@release
       with:
           local: docs
           remote: /${{ secrets.USERNAME }}/projects/foodgram/docs/
@@ -89,7 +89,7 @@ jobs:
       - build_push_frontend_to_DockerHub
     steps:
     - name: remote ssh commands to deploy
-      uses: garygrossgarten/github-action-ssh@release
+      uses: pxlpzwd/github-action-ssh@release
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
