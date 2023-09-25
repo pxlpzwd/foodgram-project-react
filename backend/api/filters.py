@@ -1,6 +1,5 @@
-from django_filters import rest_framework as filters
-
 from core.services import maybe_incorrect_layout
+from django_filters import rest_framework as filters
 from recipes.models import Ingredient, Recipe
 
 
