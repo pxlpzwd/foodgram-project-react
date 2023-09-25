@@ -12,7 +12,6 @@ from rest_framework.status import (HTTP_400_BAD_REQUEST,
                                    HTTP_405_METHOD_NOT_ALLOWED)
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from users.models import Subscriptions
-
 from api.filters import IngredientFilter, RecipeFilterSet
 from api.mixins import AddDelViewMixin
 from api.paginators import PageLimitPagination
