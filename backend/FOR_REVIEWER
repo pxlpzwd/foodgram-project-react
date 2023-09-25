@@ -1,0 +1,40 @@
+DEBUG=True
+#SECRET_KEY=<Your_some_long_string>
+#ALLOWED_HOSTS=<Your_host>
+#CSRF_TRUSTED_ORIGINS=https://<Your_host>
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=postgres
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+DB_HOST=foodgram-db
+DB_PORT=5432
+
+docker-compose up -d
+docker-compose down
+docker exec -it foodgram-app python manage.py createsuperuser
+
+docker-compose exec backend python manage.py migrate
+docker-compose exec backend bash
+_________________________________________________
+ERRORS 6 need fix 2p validators.py and fix views.py 
+_________________________________________________
+
+docker-compose up --build пересобрать
+docker-compose exec foodgram_backend flask db upgrade
+
+docker exec -it foodgram_backend python manage.py loaddata data/dump.json
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+пересоздании базы
+docker-compose down
+
+SECRET_KEY = 'django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
+
+victory@gmail.com
+vitaliy@gmail.com 
