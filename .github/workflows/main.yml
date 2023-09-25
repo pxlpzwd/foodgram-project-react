@@ -78,3 +78,28 @@ jobs:
           # устанавливаем тег latest, чтобы потом
           # на сервере и в docker-compose.yml не указывать версию
           tags: pzwd/foodgram_back:latest
+
+  frontend_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up nodeJS
+      # Это готовый воркфлоу для установки Node.js на раннер
+      uses: actions/setup-node@v3
+      with:
+        # Это параметр воркфлоу, указывающий нужную версию Node.js
+        node-version: 16.20.2
+
+    - name: Install dependencies
+      # Эта команда устанавливает зависимости для фронтенда
+      run: |
+        cd frontend/
+        npm ci
+
+    - name: Test frontend
+      # Запускаем тесты
+      run: |
+        cd frontend/
+        npm run test
+
