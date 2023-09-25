@@ -4,6 +4,7 @@ from urllib.parse import unquote
 
 from django.apps import apps
 from django.db.models import F, Sum
+
 from foodgram.settings import DATE_TIME_FORMAT
 from recipes.models import AmountIngredient, Recipe
 
