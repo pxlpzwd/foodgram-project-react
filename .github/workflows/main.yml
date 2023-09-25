@@ -152,23 +152,12 @@ jobs:
         # с которым установлено соединение
         script: |
           cd foodgram
-          echo DEBUG=True
-          echo SECRET_KEY='django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
-          echo ALLOWED_HOSTS='158.160.26.157,127.0.0.1,localhost,foodgrams.didns.ru'
-          echo CSRF_TRUSTED_ORIGINS='https://foodgrams.didns.ru'
-          echo DB_ENGINE=django.db.backends.postgresql
-          echo DB_NAME=postgres
-          echo POSTGRES_USER=postgres
-          echo POSTGRES_PASSWORD=postgres
-          echo DB_HOST=db
-          echo DB_PORT=5432
-
-          sudo docker-compose stop
-          sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
-          sudo docker rmi pzwd/foodgram_front
-          sudo docker rmi pzwd/foodgram_back
-          sudo docker rmi pzwd/foodgram_gateway
-
-          sudo docker-compose up -d
-          sudo docker image prune -a
-          rm -f .env
+          # Выполняет pull образов с Docker Hub
+          sudo docker compose -f docker-compose.yml pull
+          # Перезапускает все контейнеры в Docker Compose
+          sudo docker compose -f docker-compose.yml down
+          sudo docker compose -f docker-compose.yml up -d
+          # Выполняет миграции и сбор статики
+          sudo docker compose -f docker-compose.yml exec backend python manage.py migrate
+          sudo docker compose -f docker-compose.yml exec backend python manage.py collectstatic
+          sudo docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /static/static/
