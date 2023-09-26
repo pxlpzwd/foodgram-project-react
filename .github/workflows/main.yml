@@ -153,6 +153,7 @@ jobs:
         script: |
           cd foodgram
 
+          touch 123
           echo DEBUG=True > .env
           echo SECRET_KEY='django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7' >> .env
           echo ALLOWED_HOSTS='158.160.26.157,127.0.0.1,localhost,foodgrams.didns.ru' >> .env
