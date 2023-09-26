@@ -165,9 +165,9 @@ jobs:
 
           sudo docker-compose stop
           sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
-          sudo docker rmi pzwd/foodgram_front
-          sudo docker rmi pzwd/foodgram_backend
-          sudo docker rmi pzwd/foodgram_gateway
+          sudo docker rmi pzwd/foodgram_gateway:latest
+          sudo docker rmi pzwd/foodgram_backend:latest
+          sudo docker rmi pzwd/foodgram_gateway:latest
 
           sudo docker-compose up -d
           sudo docker image prune -a
