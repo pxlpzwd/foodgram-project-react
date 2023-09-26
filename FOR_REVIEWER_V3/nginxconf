@@ -1,0 +1,59 @@
+server {
+    server_name pzwdhost.ddns.net;
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+    }
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/pzwdhost.ddns.net/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/pzwdhost.ddns.net/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+    if ($host = pzwdhost.ddns.net) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name pzwdhost.ddns.net;
+    return 404; # managed by Certbot
+}
+server {
+    server_name Kittygrams.didns.ru;
+    location / {
+        proxy_pass http://127.0.0.1:9000;
+    }
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/kittygrams.didns.ru/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/kittygrams.didns.ru/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+server {
+    if ($host = kittygrams.didns.ru) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+    listen 80;
+    server_name Kittygrams.didns.ru;
+    return 404; # managed by Certbot
+}
+# foodgrams.didns.ru server block
+server {
+    server_name foodgrams.didns.ru;
+    location / {
+        proxy_pass http://127.0.0.1:7000;
+    }
+    listen 443 ssl; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/foodgrams.didns.ru/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/foodgrams.didns.ru/privkey.pem; # managed by Certbot
+}
+server {
+    if ($host = foodgrams.didns.ru) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    listen 80;
+    server_name foodgrams.didns.ru;
+    return 404; # managed by Certbot
