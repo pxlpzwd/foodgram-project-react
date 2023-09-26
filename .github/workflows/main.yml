@@ -130,7 +130,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
     # Копируем docker-compose.production.yml на продакшен-сервер
-    - name: Copy docker-compose.yml via ssh
+    - name: Copy docker-compose.production.yml via ssh
       uses: appleboy/scp-action@master
     # Передаём параметры для action appleboy/scp-action:
       with:
@@ -152,16 +152,17 @@ jobs:
         # с которым установлено соединение
         script: |
           cd foodgram
-          echo DEBUG=True
-          echo SECRET_KEY='django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
-          echo ALLOWED_HOSTS='158.160.26.157,127.0.0.1,localhost,foodgrams.didns.ru'
-          echo CSRF_TRUSTED_ORIGINS='https://foodgrams.didns.ru'
-          echo DB_ENGINE=django.db.backends.postgresql
-          echo DB_NAME=postgres
-          echo POSTGRES_USER=postgres
-          echo POSTGRES_PASSWORD=postgres
-          echo DB_HOST=db
-          echo DB_PORT=5432
+
+          echo DEBUG=True > .env
+          echo SECRET_KEY='django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7' >> .env
+          echo ALLOWED_HOSTS='158.160.26.157,127.0.0.1,localhost,foodgrams.didns.ru' >> .env
+          echo CSRF_TRUSTED_ORIGINS='foodgrams.didns.ru' >> .env
+          echo DB_ENGINE=django.db.backends.postgresql >> .env
+          echo DB_NAME=postgres >> .env
+          echo POSTGRES_USER=postgres >> .env
+          echo POSTGRES_PASSWORD=postgres >> .env
+          echo DB_HOST=db >> .env
+          echo DB_PORT=5432 >> .env
 
           sudo docker-compose stop
           sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
