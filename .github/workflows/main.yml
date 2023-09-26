@@ -153,7 +153,7 @@ jobs:
           echo "DEBUG=True
           SECRET_KEY='django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
           ALLOWED_HOSTS=['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
-          CSRF_TRUSTED_ORIGINS='https://foodgrams.didns.ru'
+          CSRF_TRUSTED_ORIGINS='foodgrams.didns.ru'
           DB_ENGINE=django.db.backends.postgresql
           DB_NAME=postgres
           POSTGRES_USER=postgres
@@ -165,7 +165,7 @@ jobs:
           sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
           sudo docker rmi pzwd/foodgram_gateway:latest
           sudo docker rmi pzwd/foodgram_backend:latest
-          sudo docker rmi pzwd/foodgram_gateway:latest
+          sudo docker rmi pzwd/foodgram_frontend:latest
 
           sudo docker-compose -f docker-compose.production.yml --env-file .env up -d
           sudo docker image prune -a
