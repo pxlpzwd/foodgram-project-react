@@ -161,4 +161,4 @@ jobs:
 
           cd infra
 
-          touch 321
+          touch 321!
