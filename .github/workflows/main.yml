@@ -43,6 +43,42 @@ jobs:
         cd backend/
         python manage.py test
 
+  copy_files_to_server:
+    name: Copy infra and docs
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create projects directory
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        command: cd projects && mkdir -p foodgram && mkdir -p foodgram/docs
+
+    - name: Copy infra files
+      uses: garygrossgarten/github-action-scp@release
+      with:
+          local: infra/
+          remote: /${{ secrets.USER }}/projects/foodgram/
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+
+    - name: Copy docs
+      uses: garygrossgarten/github-action-scp@release
+      with:
+          local: docs
+          remote: /${{ secrets.USER }}/projects/foodgram/docs/
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+
+
   build_push_backend_to_DockerHub:
     name: Push backend Docker image to DockerHub
     runs-on: ubuntu-latest
