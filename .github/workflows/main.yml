@@ -4,7 +4,6 @@ on:
   push:
     branches: [ master ]
 
-
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
@@ -37,7 +36,7 @@ jobs:
         file: ./backend/Dockerfile
         tags: pzwd/foodgram_backend:latest
         push: true
-
+        
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push
@@ -50,7 +49,6 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_KEY }}
-        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
     - name: Deploy to server
       env:
