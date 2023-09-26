@@ -142,8 +142,8 @@ jobs:
         # source: "./foodgram/infra/docker-compose.production.yml"
         # source: "docker-compose.production.yml"
         # target: "foodgram"
-        source: "./foodgram/infra/docker-compose.production.yml"
-        target: "/foodgram/infra/"
+        source: "./infra/docker-compose.production.yml"
+        target: "foodgram"
     - name: Executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
@@ -155,6 +155,6 @@ jobs:
         # которые нужно выполнить на сервере, 
         # с которым установлено соединение
         script: |
-          cd foodgram/infra
+          cd foodgram
 
           touch 123
