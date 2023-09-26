@@ -20,6 +20,9 @@
 
 // docker exec -it foodgram_backend python manage.py loaddata data/dump.json
 
+// sudo ufw allow 7000/tcp
+// sudo ufw enable
+
 // DATABASES = {
 //     'default': {
 //         'ENGINE': 'django.db.backends.sqlite3',
