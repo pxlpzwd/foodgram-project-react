@@ -122,7 +122,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: 
-      # Дождёмся билда всех образов Foodgram
+
       - build_push_backend_to_DockerHub
       - build_frontend_and_push_to_docker_hub
       - build_gateway_and_push_to_docker_hub
@@ -132,7 +132,7 @@ jobs:
     # Копируем docker-compose.production.yml на продакшен-сервер
     - name: Copy docker-compose.yml via ssh
       uses: appleboy/scp-action@master
-    # Передаём параметры для action appleboy/scp-action:
+      
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
@@ -147,28 +147,26 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        # Параметр script передаёт в action appleboy/ssh-action команды,
-        # которые нужно выполнить на сервере, 
-        # с которым установлено соединение
         script: |
+          set -e
           cd foodgram
-          echo DEBUG=True
-          echo SECRET_KEY='django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
-          echo ALLOWED_HOSTS=['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
-          echo CSRF_TRUSTED_ORIGINS='https://foodgrams.didns.ru'
-          echo DB_ENGINE=django.db.backends.postgresql
-          echo DB_NAME=postgres
-          echo POSTGRES_USER=postgres
-          echo POSTGRES_PASSWORD=postgres
-          echo DB_HOST=db
-          echo DB_PORT=5432
-
+          echo "DEBUG=True
+          SECRET_KEY='django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
+          ALLOWED_HOSTS=['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
+          CSRF_TRUSTED_ORIGINS='https://foodgrams.didns.ru'
+          DB_ENGINE=django.db.backends.postgresql
+          DB_NAME=postgres
+          POSTGRES_USER=postgres
+          POSTGRES_PASSWORD=postgres
+          DB_HOST=db
+          DB_PORT=5432" > .env
+          
           sudo docker-compose stop
           sudo docker ps -a | grep Exit | cut -d ' ' -f 1 | xargs sudo docker rm
           sudo docker rmi pzwd/foodgram_gateway:latest
           sudo docker rmi pzwd/foodgram_backend:latest
           sudo docker rmi pzwd/foodgram_gateway:latest
 
-          sudo docker-compose -f docker-compose.production.yml up -d
+          sudo docker-compose -f docker-compose.production.yml --env-file .env up -d
           sudo docker image prune -a
           rm -f .env
