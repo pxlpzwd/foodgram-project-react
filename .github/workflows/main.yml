@@ -159,6 +159,6 @@ jobs:
 
           touch 123
 
-          cd foodgram/infra
+          cd infra
 
           touch 321
