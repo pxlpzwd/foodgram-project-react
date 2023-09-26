@@ -35,3 +35,8 @@
 // pswd: Metalik86
 // пересоздании базы
 // docker-compose down
+
+// остановить контенер на серваке sudo docker stop 3b280ca38b79 27a81d831fea bd79a47467c0
+
+// удалть sudo docker rm 3b280ca38b79 27a81d831fea bd79a47467c0
+// проверить sudo docker ps -a
