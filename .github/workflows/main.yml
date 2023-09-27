@@ -178,4 +178,5 @@ jobs:
           cd infra
 
           docker-compose -f docker-compose.production.yml down
-          if [[ "$?" -ne 0 ]]; then echo "Error in 'docker-compose down' command" && exit 1; fi
+          docker-compose -f docker-compose.production.yml pull
+          if [[ "$?" -ne 0 ]]; then echo "Error pulling images" && exit 1; fi
