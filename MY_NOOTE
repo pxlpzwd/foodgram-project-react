@@ -1,9 +1,3 @@
-// DB_NAME=postgres
-// POSTGRES_USER=postgres
-// POSTGRES_PASSWORD=postgres
-// DB_HOST=foodgram-db
-// DB_PORT=5432
-
 // docker-compose up -d
 // docker-compose down
 
@@ -11,9 +5,6 @@
 
 // docker-compose exec backend python manage.py migrate
 // docker-compose exec backend bash 
-// _________________________________________________
-// ERRORS 6 need fix 2p validators.py and fix views.py
-// _________________________________________________
 
 // docker-compose up --build пересобрать
 // docker-compose exec foodgram_backend flask db upgrade
@@ -25,12 +16,6 @@
 // sudo ufw allow 7000/tcp
 // sudo ufw enable
 
-// DATABASES = {
-//     'default': {
-//         'ENGINE': 'django.db.backends.sqlite3',
-//         'NAME': BASE_DIR / 'db.sqlite3',
-//     }
-// }
 // superuser - admin
 // email@ - anon-44@yandex.ru
 // pswd: Metalik86
@@ -44,6 +29,8 @@
 
 // df -h посмотреть свободное место
 // sudo docker ps -a посмотреть запущенные контейнеры
+// sudo docker stop id/name остановить запущенные контейнеры
+
 // docker image ls посмотреть образы
 // docker rmi id/name
 
