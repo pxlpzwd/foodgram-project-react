@@ -57,3 +57,4 @@ server {
     listen 80;
     server_name foodgrams.didns.ru;
     return 404; # managed by Certbot
+}

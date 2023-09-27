@@ -8,12 +8,13 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config("SECRET_KEY", default="string_from_.env")
+# SECRET_KEY = config("SECRET_KEY", default="string_from_.env")
+SECRET_KEY = 'django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
 
-# ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*", cast=Csv())
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*", cast=Csv())
 
 # ALLOWED_HOSTS = ['158.160.26.157, 127.0.0.1, localhost, foodgrams.didns.ru']
-ALLOWED_HOSTS = ['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
+# ALLOWED_HOSTS = ['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",

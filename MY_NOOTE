@@ -1,5 +1,5 @@
 // docker-compose up -d
-// docker-compose down
+// c
 
 // docker exec -it foodgram-app python manage.py createsuperuser
 
@@ -7,6 +7,10 @@
 // docker-compose exec backend bash 
 
 // docker-compose up --build пересобрать
+// docker-compose -f docker-compose.production.yml up --build
+
+// docker exec -it app python manage.py createsuperuser
+
 // docker-compose exec foodgram_backend flask db upgrade
 
 // sudo docker ps -a
