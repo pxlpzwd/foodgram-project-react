@@ -179,4 +179,20 @@ jobs:
 
           docker-compose -f docker-compose.production.yml down
           docker-compose -f docker-compose.production.yml pull
-          if [[ "$?" -ne 0 ]]; then echo "Error pulling images" && exit 1; fi
+          docker-compose -f docker-compose.production.yml up -d
+          if [[ "$?" -ne 0 ]]; then echo "Error starting containers" && exit 1; fi
+
+          docker-compose -f docker-compose.production.yml exec backend python manage.py makemigrations users
+          if [[ "$?" -ne 0 ]]; then echo "Error creating users migrations" && exit 1; fi
+
+          docker-compose -f docker-compose.production.yml exec backend python manage.py makemigrations api
+          if [[ "$?" -ne 0 ]]; then echo "Error creating api migrations" && exit 1; fi
+
+          docker-compose -f docker-compose.production.yml exec backend python manage.py makemigrations recipes
+          if [[ "$?" -ne 0 ]]; then echo "Error creating recipes migrations" && exit 1; fi
+
+          docker-compose -f docker-compose.production.yml exec backend python manage.py migrate
+          if [[ "$?" -ne 0 ]]; then echo "Error running migrate command" && exit 1; fi
+
+          docker-compose -f docker-compose.production.yml exec backend python manage.py loaddata data/dump.json
+          if [[ "$?" -ne 0 ]]; then echo "Error loading the data from dump.json" && exit 1; fi
