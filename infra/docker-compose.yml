@@ -8,7 +8,7 @@ services:
     volumes:
       - ./frontend/:/app/result_build/
 
-  db:
+  foodgram-db:
     container_name: foodgram_db
     image: postgres:13.0-alpine
     restart: always
