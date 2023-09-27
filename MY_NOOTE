@@ -41,3 +41,10 @@
 
 // удалть sudo docker rm 3b280ca38b79 27a81d831fea bd79a47467c0
 // проверить sudo docker ps -a
+
+// df -h посмотреть свободное место
+// sudo docker ps -a посмотреть запущенные контейнеры
+// docker image ls посмотреть образы
+// docker rmi id/name
+
+
