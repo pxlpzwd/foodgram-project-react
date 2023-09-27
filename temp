@@ -51,8 +51,9 @@ deploy:
           cd infra
           docker-compose -f docker-compose.production.yml down
           if [[ "$?" -ne 0 ]]; then echo "Error in 'docker-compose down' command" && exit 1; fi
-          
+
 Что я сделал:
+
 Я добавил новый шаг после шага "Copy docker-compose.production.yml via ssh" перед выполнением удаленных SSH-команд.
 Шаг называется "Set Docker permissions".
 
