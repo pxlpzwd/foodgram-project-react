@@ -144,6 +144,15 @@ jobs:
         # target: "foodgram"
         source: "./infra/docker-compose.production.yml"
         target: "foodgram"
+    - name: Set Docker permissions
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: |
+          sudo chmod 666 /var/run/docker.sock
     - name: Executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
@@ -151,9 +160,6 @@ jobs:
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        # Параметр script передаёт в action appleboy/ssh-action команды,
-        # которые нужно выполнить на сервере, 
-        # с которым установлено соединение
         script: |
           cd foodgram
 
