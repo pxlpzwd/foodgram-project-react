@@ -4,7 +4,6 @@ services:
   frontend:
     container_name: foodgram_frontend
     image: pzwd/foodgram_frontend:latest
-    build: ../frontend
     volumes:
       - ./frontend/:/app/result_build/
 
@@ -18,9 +17,8 @@ services:
       - ../.env
 
   backend:
-    container_name: foodgram_backend #foodgram-app
+    container_name: foodgram_backend
     image: pzwd/foodgram_backend:latest
-    build: ../backend
     restart: always
     volumes:
       - static_dir:/app/static/
