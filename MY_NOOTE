@@ -1,0 +1,39 @@
+// docker-compose up -d
+// c
+
+// docker exec -it foodgram-app python manage.py createsuperuser
+
+// docker-compose exec backend python manage.py migrate
+// docker-compose exec backend bash 
+
+// docker-compose up --build пересобрать
+// docker-compose -f docker-compose.production.yml up --build
+
+// docker exec -it app python manage.py createsuperuser
+
+// docker-compose exec foodgram_backend flask db upgrade
+
+// sudo docker ps -a
+
+// docker exec -it foodgram_backend python manage.py loaddata data/dump.json
+
+// sudo ufw allow 7000/tcp
+// sudo ufw enable
+
+// superuser - admin
+// email@ - anon-44@yandex.ru
+// pswd: Metalik86
+// пересоздании базы
+// docker-compose down
+
+// остановить контенер на серваке sudo docker stop 3b280ca38b79 27a81d831fea bd79a47467c0
+
+// удалть sudo docker rm 3b280ca38b79 27a81d831fea bd79a47467c0
+// проверить sudo docker ps -a
+
+// df -h посмотреть свободное место
+// sudo docker ps -a посмотреть запущенные контейнеры
+// sudo docker stop id/name остановить запущенные контейнеры
+
+// docker image ls посмотреть образы
+// docker rmi id/name
