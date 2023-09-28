@@ -43,6 +43,5 @@ class IngredientFilter(filters.FilterSet):
     def filter_name(self, queryset, name, value):
         if value:
             value = maybe_incorrect_layout(value)
-            # queryset = queryset.filter(name__icontains=value)
             queryset = queryset.filter(name__istartswith=value)
         return queryset

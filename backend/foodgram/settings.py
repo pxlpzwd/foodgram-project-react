@@ -8,13 +8,9 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECRET_KEY = config("SECRET_KEY", default="string_from_.env")
-SECRET_KEY = 'django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
+SECRET_KEY = config("SECRET_KEY", default="string_from_.env")
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*", cast=Csv())
-
-# ALLOWED_HOSTS = ['158.160.26.157, 127.0.0.1, localhost, foodgrams.didns.ru']
-# ALLOWED_HOSTS = ['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
 
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
@@ -40,7 +36,6 @@ INSTALLED_APPS = [
     "api.apps.ApiConfig",
     "recipes.apps.RecipesConfig",
     "users.apps.UsersConfig",
-    # 'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -168,21 +163,3 @@ MEDIA_ROOT = BASE_DIR / MEDIA_URL
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 PASSWORD_RESET_TIMEOUT = 60 * 60  # 1 hour
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-        },
-    },
-    "loggers": {
-        "django.db.backends": {
-            "level": "DEBUG",  # if DEBUG else 'ERROR',
-            "handlers": [
-                "console",
-            ],
-        },
-    },
-}

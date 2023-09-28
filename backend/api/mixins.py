@@ -23,7 +23,6 @@ class AddDelViewMixin:
         """Добавляет связь M2M между объектами."""
         obj = get_object_or_404(self.queryset, pk=obj_id)
 
-        # Новый блок здесь:
         if relation_type == 'subscription':
             fields = {'author_id': obj.pk, 'user_id': self.request.user.pk}
         else:

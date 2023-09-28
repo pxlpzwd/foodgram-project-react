@@ -1,4 +1,7 @@
-# Это набросок после ревью переделаю
+## Проект Foodgram https://foodgrams.didns.ru/
+
+### Для локально развёртывание проекта нужно:
+
 - Download project with SSH
 
 ```text
@@ -26,13 +29,14 @@ DB_HOST=db
 DB_PORT=5432
 ```
 
-- Пересобрать образ из котолога infra
+- Пересобрать образ:
 
 ```text
+Запустить из католога infra файл
 docker-compose up --build
 ```
 
-- Сделать миграции
+- Сделать миграции:
 
 ```text
 1. docker-compose exec backend bash
@@ -46,4 +50,16 @@ docker-compose up --build
 ```text
 docker exec -it foodgram_backend python manage.py loaddata data/dump.json
 ```
-
+### Для  развёртывания на сервере:
+- Нужно сделать 
+```text
+1. Настроить nginx на локально и на серврее
+2. Добавить Secrets* на https://github.com/ в репазитории проекта
+2. Раскоментировать файл #main.yml 
+3. выполнить команду git add .
+4. git commit -a -m 'коментарий'
+5. git push 
+```
+```text
+Скрипт main.yml развернёт автоматом проект на сервере
+```
