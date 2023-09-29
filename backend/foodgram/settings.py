@@ -2,7 +2,7 @@
 from decouple import Csv, config
 from pathlib import Path
 
-# from dotenv import load_doten
+# from dotenv import load_dote
 
 
 DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
@@ -110,10 +110,6 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
-    ],
-    'DEFAULT_PAGINATION_CLASS': [
-        'rest_framework.pagination.PageNumberPagination',
-        'rest_framework.pagination.LimitOffsetPagination',
     ],
 }
 
