@@ -3,7 +3,6 @@ from pathlib import Path
 
 # from dotenv import load_dote
 
-
 DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
 
 DEBUG = config("DEBUG", default=False, cast=bool)
