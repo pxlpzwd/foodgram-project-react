@@ -188,11 +188,14 @@ jobs:
 
           cd infra
 
-          docker-compose -f docker-compose.production.yml down
-          docker-compose -f docker-compose.production.yml pull
-          docker-compose -f docker-compose.production.yml up -d
+          sudo docker-compose -f docker-compose.production.yml down
+          sudo docker-compose -f docker-compose.production.yml down
+          sudo docker-compose -f docker-compose.production.yml pull
+          sudo docker-compose -f docker-compose.production.yml up -d
 
-          sudo docker-compose -f docker-compose.production.yml exec -T backend python manage.py makemigrations
+          sudo docker-compose -f docker-compose.production.yml exec -T backend python manage.py makemigrations users
+          sudo docker-compose -f docker-compose.production.yml exec -T backend python manage.py makemigrations api
+          sudo docker-compose -f docker-compose.production.yml exec -T backend python manage.py makemigrations recipes
           sudo docker-compose -f docker-compose.production.yml exec -T backend python manage.py migrate
           sudo docker-compose -f docker-compose.production.yml exec -T backend python manage.py loaddata data/dump.json
           sudo docker-compose -f docker-compose.production.yml restart
