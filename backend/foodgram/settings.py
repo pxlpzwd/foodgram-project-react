@@ -1,6 +1,10 @@
-from pathlib import Path
-
+# import os
 from decouple import Csv, config
+from pathlib import Path
+#  from decouple import config
+# from dotenv import load_dotenv
+
+# load_dotenv()
 
 DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
 
@@ -8,13 +12,22 @@ DEBUG = config("DEBUG", default=False, cast=bool)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SECRET_KEY = 'django-insecure-!ubab^v^19w*n$u1k0((8ei@d4epi&d*ywx+jlefgrm$2ffnf7'
+
+#  ALLOWED_HOST = ['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
+
+# CSRF_TRUSTED_ORIGINS = ['https://foodgrams.didns.ru']
+
+# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(' ')
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'foodgrams.didns.ru', 'localhost:7000']
+
 SECRET_KEY = config("SECRET_KEY", default="string_from_.env")
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*", cast=Csv())
-
+# CSRF_TRUSTED_ORIGINS = ['http://localhost:7000']
 CSRF_TRUSTED_ORIGINS = config(
     "CSRF_TRUSTED_ORIGINS",
-    default="http://localhost, http://127.0.0.1",
+    default="http://localhost, http://127.0.0.1,",
     cast=Csv(),
 )
 
@@ -163,3 +176,21 @@ MEDIA_ROOT = BASE_DIR / MEDIA_URL
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 PASSWORD_RESET_TIMEOUT = 60 * 60  # 1 hour
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",  # if DEBUG else 'ERROR',
+            "handlers": [
+                "console",
+            ],
+        },
+    },
+}
