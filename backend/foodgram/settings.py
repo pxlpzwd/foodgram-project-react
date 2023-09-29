@@ -1,4 +1,3 @@
-# import os
 from decouple import Csv, config
 from pathlib import Path
 
@@ -18,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CSRF_TRUSTED_ORIGINS = ['https://foodgrams.didns.ru']
 
 # ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(' ')
+
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'foodgrams.didns.ru', 'localhost:7000']
 
 SECRET_KEY = config("SECRET_KEY", default="string_from_.env")
@@ -111,8 +111,8 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
-    # 'DEFAULT_PAGINATION_CLASS': 'api.apps.ApiConfig.paginators.PageLimitPagination',
-    # 'PAGE_SIZE': 10
+     'DEFAULT_PAGINATION_CLASS': 'api.apps.ApiConfig.paginators.PageLimitPagination',
+     'PAGE_SIZE': 10
 }
 
 DJOSER = {
