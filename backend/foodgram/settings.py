@@ -4,8 +4,6 @@ from pathlib import Path
 
 # from dotenv import load_dotenv
 
-# load_dotenv()
-
 
 DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
 
