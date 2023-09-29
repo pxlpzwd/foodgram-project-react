@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models import (CASCADE, BooleanField, CharField,
+from django.db.models import (BooleanField, CharField,
                               CheckConstraint, DateTimeField, EmailField, F,
                               ForeignKey, Model, Q, UniqueConstraint)
 from django.db.models.functions import Length
@@ -8,6 +8,8 @@ from django.utils.translation import gettext_lazy as _
 from core.validators import AlphabetValidator, MinLenValidator
 
 from .normalizers import NormalizeValidators
+
+from django.db import models
 
 CharField.register_lookup(Length)
 
@@ -88,13 +90,13 @@ class Subscriptions(Model):
         verbose_name="Автор рецепта",
         related_name="subscribers",
         to=NewUser,
-        on_delete=CASCADE,
+        on_delete=models.CASCADE,
     )
     user = ForeignKey(
         verbose_name="Подписчики",
         related_name="subscriptions",
         to=NewUser,
-        on_delete=CASCADE,
+        on_delete=models.CASCADE,
     )
     date_added = DateTimeField(
         verbose_name="Дата подписки",
