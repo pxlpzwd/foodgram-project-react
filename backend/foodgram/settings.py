@@ -1,6 +1,11 @@
+# import os
 from decouple import Csv, config
 from pathlib import Path
-#  from decouple import config
+
+# from dotenv import load_dotenv
+
+# load_dotenv()
+
 
 DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
 
@@ -12,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 #  ALLOWED_HOST = ['158.160.26.157', '127.0.0.1', 'localhost', 'foodgrams.didns.ru']
 
-# CSRF_TRUSTED_ORIGINS = ['https://foodgrams.didns.ru']
+CSRF_TRUSTED_ORIGINS = ['https://foodgrams.didns.ru']
 
 # ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(' ')
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'foodgrams.didns.ru', 'localhost:7000']
@@ -21,11 +26,11 @@ SECRET_KEY = config("SECRET_KEY", default="string_from_.env")
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*", cast=Csv())
 # CSRF_TRUSTED_ORIGINS = ['http://localhost:7000']
-CSRF_TRUSTED_ORIGINS = config(
-    "CSRF_TRUSTED_ORIGINS",
-    default="http://localhost, http://127.0.0.1,",
-    cast=Csv(),
-)
+# CSRF_TRUSTED_ORIGINS = config(
+#     "CSRF_TRUSTED_ORIGINS",
+#     default="http://localhost, http://127.0.0.1,",
+#     cast=Csv(),
+# )
 
 ROOT_URLCONF = "foodgram.urls"
 
