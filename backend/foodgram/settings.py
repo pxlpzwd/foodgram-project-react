@@ -2,7 +2,7 @@
 from decouple import Csv, config
 from pathlib import Path
 
-# from dotenv import load_dotenv
+# from dotenv import load_doten
 
 
 DATE_TIME_FORMAT = "%d/%m/%Y %H:%M"
