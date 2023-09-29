@@ -1,5 +1,10 @@
 ## Проект Foodgram https://foodgrams.didns.ru/
 
+### пароль и логин от админки
+
+- login: root
+- pswd: Metalik86
+
 ### Для локально развёртывание проекта нужно:
 
 - Download project with SSH

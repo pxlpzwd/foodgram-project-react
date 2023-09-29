@@ -4,12 +4,18 @@
 // docker exec -it foodgram-app python manage.py createsuperuser
 
 // docker-compose exec backend python manage.py migrate
-// docker-compose exec backend bash 
+// docker-compose exec backend bash
 
+// 
+// python manage.py createsuperuser
 // docker-compose up --build пересобрать
 // docker-compose -f docker-compose.production.yml up --build
 
+// docker compose stop && docker compose up --build
+
 // docker exec -it app python manage.py createsuperuser
+// docker exec -it foodgram_backend python manage.py createsuperuser
+
 
 // docker-compose exec foodgram_backend flask db upgrade
 
